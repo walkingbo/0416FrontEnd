@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>캔버스 애니메이션</title>
+</head>
+<body>
+	<!-- 애니메이션을 만들기 위한 캔버스 -->
+	<section>
+	<canvas id="canvas" width="500" height="300">
+	<!-- 대체 텍스트 : 기능이 동작하지 않는 브라우저에서 보여질 문자열 -->
+	이 브라우저는 캔버스를 지원하지 않습니다.<br/>
+	업그레이드 하거나 크롬이나 파이어 폭스를 이용하세요.	
+	</canvas>
+	
+	</section>
+</body>
+
+	<script>
+	var canvas = document.getElementById("canvas")
+	//캔버스에 작업을 할 때는 캔버스를 가지고 하지 않고 context를 이용한다.
+	//context를 가지고 옵니다.
+	var context = canvas.getContext("2d")
+	
+	//화면 내에서 마우스를 움직이는 이벤트 처리
+	window.addEventListener('mousemove',function(e){
+		//캔버스 영역의 모든 내용을 삭제
+		context.clearRect(0,0,300,500)
+		//마우스 좌표 가져오기
+		var xmouse = e.clientX
+		var ymouse = e.clientY
+		//원을 그리기 위한 중점의 좌표를 설정
+		var xcenter = 220
+		var ycenter = 150
+		
+		//안쪽 작은 원을 그리기 위한 중점 좌표를 생성하기 위한 임시 데이터
+		var ang = Math.atan2(xmouse-xcenter,ymouse-ycenter)
+		
+		var x = xcenter + Math.round(Math.sin(ang)*10)
+		var y = ycenter + Math.round(Math.cos(ang)*10)
+		
+		//메모리에 그리기 시작
+		context.beginPath();
+		context.arc(xcenter,ycenter,20,0,Math.PI*2,false)
+		//그리는 원점을 옮기기
+		context.moveTo(xcenter + 70,150)
+		context.arc(xcenter+50,ycenter,20,0,Math.PI*2,false)
+		//화면에 그리기
+		context.stroke()
+		
+		context.beginPath()
+		context.moveTo(x+10,y)
+		context.arc(x,y,10,0,Math.PI*2,false)
+		context.moveTo(x+60,y)
+		context.arc(x+50,y,10,0,Math.PI*2,false)
+		context.fill()
+	})
+	</script>
+</html>
